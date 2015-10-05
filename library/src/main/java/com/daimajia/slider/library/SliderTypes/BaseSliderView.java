@@ -15,10 +15,7 @@ import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.image.ImageInfo;
-import com.facebook.imagepipeline.image.QualityInfo;
 import com.facebook.imagepipeline.request.ImageRequest;
-
-import java.io.File;
 
 /**
  * When you want to make your own slider view, you must extends from this class.
@@ -44,8 +41,6 @@ public abstract class BaseSliderView {
     private int mEmptyPlaceHolderRes;
 
     private String mUrl;
-    private File mFile;
-    private int mRes;
 
     protected OnSliderClickListener mOnSliderClickListener;
 
@@ -109,39 +104,12 @@ public abstract class BaseSliderView {
     }
 
     /**
-     * set a url as a image that preparing to load
+     * set a url as a image that preparing to load, http://frescolib.org/docs/supported-uris.html#_
      * @param url
      * @return
      */
     public BaseSliderView image(String url){
-        if(mFile != null || mRes != 0){
-            throw new IllegalStateException("Call multi image function," +
-                    "you only have permission to call it once");
-        }
         mUrl = url;
-        return this;
-    }
-
-    /**
-     * set a file as a image that will to load
-     * @param file
-     * @return
-     */
-    public BaseSliderView image(File file){
-        if(mUrl != null || mRes != 0){
-            throw new IllegalStateException("Call multi image function," +
-                    "you only have permission to call it once");
-        }
-        mFile = file;
-        return this;
-    }
-
-    public BaseSliderView image(int res){
-        if(mUrl != null || mFile != null){
-            throw new IllegalStateException("Call multi image function," +
-                    "you only have permission to call it once");
-        }
-        mRes = res;
         return this;
     }
 
@@ -226,7 +194,6 @@ public abstract class BaseSliderView {
                 if (imageInfo == null) {
                     return;
                 }
-                QualityInfo qualityInfo = imageInfo.getQualityInfo();
             }
 
             @Override
