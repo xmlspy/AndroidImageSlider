@@ -193,7 +193,6 @@ public abstract class BaseSliderView {
         if (mLoadListener != null) {
             mLoadListener.onStart(me);
         }
-        Fresco.initialize(mContext);
 
         ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
             @Override
