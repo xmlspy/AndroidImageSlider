@@ -35,6 +35,7 @@ import com.daimajia.slider.library.Tricks.FixedSpeedScroller;
 import com.daimajia.slider.library.Tricks.InfinitePagerAdapter;
 import com.daimajia.slider.library.Tricks.InfiniteViewPager;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.lang.reflect.Field;
 import java.util.Timer;
@@ -720,5 +721,11 @@ public class SliderLayout extends RelativeLayout {
         if (mResumingTask != null) mResumingTask.cancel();
         if (mResumingTimer != null) mResumingTimer.cancel();
         mh.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        Fresco.initialize(mContext);
+        super.onAttachedToWindow();
     }
 }
