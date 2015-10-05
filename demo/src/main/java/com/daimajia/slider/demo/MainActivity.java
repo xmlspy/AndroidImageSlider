@@ -20,6 +20,7 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.HashMap;
 
@@ -31,6 +32,7 @@ public class MainActivity extends ActionBarActivity implements BaseSliderView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fresco.initialize(this);
         setContentView(R.layout.activity_main);
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
 
@@ -51,7 +53,7 @@ public class MainActivity extends ActionBarActivity implements BaseSliderView.On
             // initialize a SliderLayout
             textSliderView
                     .description(name)
-                    .image(file_maps.get(name))
+                    .image("res://" + file_maps.get(name))
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(this);
 
