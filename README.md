@@ -36,9 +36,9 @@ dependencies {
 
 ```xml
 <dependency>
-    <groupId>com.squareup.picasso</groupId>
-    <artifactId>picasso</artifactId>
-    <version>2.3.2</version>
+    <groupId>com.facebook.fresco</groupId>
+    <artifactId>fresco</artifactId>
+    <version>0.7.0</version>
 </dependency>
 <dependency>
     <groupId>com.nineoldandroids</groupId>
