@@ -1,16 +1,20 @@
-# Android Image Slider [![Build Status](https://travis-ci.org/daimajia/AndroidImageSlider.svg)](https://travis-ci.org/daimajia/AndroidImageSlider)
+# Android Image Slider [![Build Status](https://travis-ci.org/chan32167/AndroidImageSlider.svg)](https://travis-ci.org/chan32167/AndroidImageSlider)
 
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/daimajia/AndroidImageSlider?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+This is based on daimajia's work. I changed it to use frescolib, and fixed some memory leaks.
  
 This is an amazing image slider for the Android platform. I decided to open source this because there is really not an attractive, convenient slider widget in Android.
  
-You can easily load images from an internet URL, drawable, or file. And there are many kinds of amazing animations you can choose. :-D
+You can easily load images from any resource using the URI. As it is based on frescolib, read more at http://frescolib.org/docs/supported-uris.html#_
+
+And there are many kinds of amazing animations you can choose. :-D
  
 ## Demo
  
 ![](http://ww3.sinaimg.cn/mw690/610dc034jw1egzor66ojdg20950fknpe.gif)
 
 [Download Apk](https://github.com/daimajia/AndroidImageSlider/releases/download/v1.0.8/demo-1.0.8.apk)
+
+DEMO NOT WORKING
  
 ## Usage
 
@@ -20,10 +24,10 @@ You can easily load images from an internet URL, drawable, or file. And there ar
 
 ```groovy
 dependencies {
-    	compile "com.android.support:support-v4:+"
-    	compile 'com.squareup.picasso:picasso:2.3.2'
+    	compile 'com.android.support:support-v4:+'
+    	compile 'com.facebook.fresco:fresco:0.7.0+'
     	compile 'com.nineoldandroids:library:2.4.0'
-    	compile 'com.daimajia.slider:library:1.1.5@aar'
+    	compile 'com.amstronghuang.slider:library:1.1.0@aar'
 }
 ```
 
@@ -42,18 +46,12 @@ dependencies {
     <version>2.4.0</version>
 </dependency>
 <dependency>
-    <groupId>com.daimajia.slider</groupId>
+    <groupId>com.amstronghuang.slider</groupId>
     <artifactId>library</artifactId>
-    <version>1.1.2</version>
+    <version>1.1.0</version>
     <type>apklib</type>
 </dependency>
 ```
-
-#### Eclipse
-
-For Eclipse users, I provided a sample project which orgnized as Eclipse way. You can download it from [here](https://github.com/daimajia/AndroidImageSlider/releases/download/v1.0.9/AndroidImageSlider-Eclipse.zip), and make some changes to fit your project.
-
-Notice: It's the version of 1.0.9, it may not update any more. You can update manually by yourself.
 
 ### Step 2
 
@@ -94,7 +92,7 @@ There are some default indicators. If you want to use a provided indicator:
         />
 ```
 
-[Code example](https://github.com/daimajia/AndroidImageSlider/blob/master/demo%2Fsrc%2Fmain%2Fjava%2Fcom%2Fdaimajia%2Fslider%2Fdemo%2FMainActivity.java)
+[Code example](https://github.com/chan32167/AndroidImageSlider/blob/master/demo%2Fsrc%2Fmain%2Fjava%2Fcom%2Fdaimajia%2Fslider%2Fdemo%2FMainActivity.java)
  
 ====
  
@@ -104,10 +102,10 @@ Please visit [Wiki](https://github.com/daimajia/AndroidImageSlider/wiki)
  
 ## Thanks
 
-- [Picasso](https://github.com/square/picasso)
+- [FrescoLib](https://www.frescolib.org)
 - [NineOldAndroids](https://github.com/JakeWharton/NineOldAndroids)
 - [ViewPagerTransforms](https://github.com/ToxicBakery/ViewPagerTransforms)
 
 ##About me
- 
-I am a student in mainland China. I love Google, love Android, love everything that is interesting. If you get any problems when using this library or you have an internship opportunity, please feel free to [email me](mailto:daimajia@gmail.com). :smiley:
+
+If you get any problems when using this library, please feel free to [email me](mailto:chan32167@gmail.com).
