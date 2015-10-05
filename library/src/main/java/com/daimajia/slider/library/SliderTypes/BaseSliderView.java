@@ -1,20 +1,15 @@
 package com.daimajia.slider.library.SliderTypes;
 
 import android.content.Context;
-import android.graphics.drawable.Animatable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.daimajia.slider.library.R;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.controller.BaseControllerListener;
-import com.facebook.drawee.controller.ControllerListener;
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.request.ImageRequest;
 
 /**
@@ -195,42 +190,16 @@ public abstract class BaseSliderView {
         }
         Fresco.initialize(mContext);
 
-        ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
-            @Override
-            public void onFinalImageSet(
-                    String id,
-                    @Nullable ImageInfo imageInfo,
-                    @Nullable Animatable anim) {
-                if(v.findViewById(R.id.loading_bar) != null){
-                    v.findViewById(R.id.loading_bar).setVisibility(View.INVISIBLE);
-                }
-                if (imageInfo == null) {
-                    return;
-                }
-            }
-
-            @Override
-            public void onIntermediateImageSet(String id, @Nullable ImageInfo imageInfo) {
-            }
-
-            @Override
-            public void onFailure(String id, Throwable throwable) {
-                if(v.findViewById(R.id.loading_bar) != null){
-                    v.findViewById(R.id.loading_bar).setVisibility(View.INVISIBLE);
-                }
-            }
-        };
-
         GenericDraweeHierarchy hierarchy = targetImageView.getHierarchy();
 
 
         DraweeController controller = null;
         if(mUrl!=null && mSmallImageUrl == null){
-            controller = Fresco.newDraweeControllerBuilder().setControllerListener(controllerListener)
+            controller = Fresco.newDraweeControllerBuilder()
                     .setImageRequest(ImageRequest.fromUri(mUrl))
                     .build();
         }else if(mUrl!=null && mSmallImageUrl != null){
-            controller = Fresco.newDraweeControllerBuilder().setControllerListener(controllerListener).setLowResImageRequest(ImageRequest.fromUri(mSmallImageUrl))
+            controller = Fresco.newDraweeControllerBuilder().setLowResImageRequest(ImageRequest.fromUri(mSmallImageUrl))
                     .setImageRequest(ImageRequest.fromUri(mUrl))
                     .build();
         }else{
@@ -251,7 +220,9 @@ public abstract class BaseSliderView {
 
         targetImageView.setHierarchy(hierarchy);
         targetImageView.setController(controller);
-
+        if(v.findViewById(R.id.loading_bar) != null){
+            v.findViewById(R.id.loading_bar).setVisibility(View.INVISIBLE);
+        }
    }
 
 

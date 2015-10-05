@@ -14,7 +14,7 @@ And there are many kinds of amazing animations you can choose. :-D
 
 [Download Apk](https://github.com/daimajia/AndroidImageSlider/releases/download/v1.0.8/demo-1.0.8.apk)
 
-DEMO NOT WORKING
+This is the old original demo from daimajia
  
 ## Usage
 
@@ -27,7 +27,7 @@ dependencies {
     	compile 'com.android.support:support-v4:+'
     	compile 'com.facebook.fresco:fresco:0.7.0+'
     	compile 'com.nineoldandroids:library:2.4.0'
-    	compile 'com.amstronghuang.slider:library:1.1.0@aar'
+    	compile 'com.amstronghuang.slider:library:1.1.1@aar'
 }
 ```
 
@@ -48,7 +48,7 @@ dependencies {
 <dependency>
     <groupId>com.amstronghuang.slider</groupId>
     <artifactId>library</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <type>apklib</type>
 </dependency>
 ```
