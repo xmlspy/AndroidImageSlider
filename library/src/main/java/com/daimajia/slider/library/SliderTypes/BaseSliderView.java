@@ -42,6 +42,8 @@ public abstract class BaseSliderView {
 
     private String mUrl;
 
+    private String mSmallImageUrl;
+
     protected OnSliderClickListener mOnSliderClickListener;
 
     private boolean mErrorDisappear;
@@ -110,6 +112,17 @@ public abstract class BaseSliderView {
      */
     public BaseSliderView image(String url){
         mUrl = url;
+        return this;
+    }
+
+    /**
+     * set a url as a image that preparing to load, http://frescolib.org/docs/supported-uris.html#_
+     * @param url
+     * @return
+     */
+    public BaseSliderView image(String url, String smallImageUrl){
+        mUrl = url;
+        mSmallImageUrl = smallImageUrl;
         return this;
     }
 
@@ -212,8 +225,12 @@ public abstract class BaseSliderView {
 
 
         DraweeController controller = null;
-        if(mUrl!=null){
+        if(mUrl!=null && mSmallImageUrl == null){
             controller = Fresco.newDraweeControllerBuilder().setControllerListener(controllerListener)
+                    .setImageRequest(ImageRequest.fromUri(mUrl))
+                    .build();
+        }else if(mUrl!=null && mSmallImageUrl != null){
+            controller = Fresco.newDraweeControllerBuilder().setControllerListener(controllerListener).setLowResImageRequest(ImageRequest.fromUri(mSmallImageUrl))
                     .setImageRequest(ImageRequest.fromUri(mUrl))
                     .build();
         }else{

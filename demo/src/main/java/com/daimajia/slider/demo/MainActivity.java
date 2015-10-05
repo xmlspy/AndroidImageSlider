@@ -53,7 +53,7 @@ public class MainActivity extends ActionBarActivity implements BaseSliderView.On
             // initialize a SliderLayout
             textSliderView
                     .description(name)
-                    .image("res://" + file_maps.get(name))
+                    .image("res:///" + file_maps.get(name))
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(this);
 
