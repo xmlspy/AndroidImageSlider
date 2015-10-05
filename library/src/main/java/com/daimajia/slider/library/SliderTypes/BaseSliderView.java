@@ -1,14 +1,22 @@
 package com.daimajia.slider.library.SliderTypes;
 
 import android.content.Context;
+import android.graphics.drawable.Animatable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.daimajia.slider.library.R;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.drawee.controller.ControllerListener;
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.image.QualityInfo;
+import com.facebook.imagepipeline.request.ImageRequest;
 
 import java.io.File;
 
@@ -46,8 +54,6 @@ public abstract class BaseSliderView {
     private ImageLoadListener mLoadListener;
 
     private String mDescription;
-
-    private Picasso mPicasso;
 
     /**
      * Scale type of the image.
@@ -188,7 +194,7 @@ public abstract class BaseSliderView {
      * @param v the whole view
      * @param targetImageView where to place image
      */
-    protected void bindEventAndShow(final View v, ImageView targetImageView){
+    protected void bindEventAndShow(final View v, SimpleDraweeView targetImageView){
         final BaseSliderView me = this;
 
         v.setOnClickListener(new View.OnClickListener() {
@@ -206,61 +212,62 @@ public abstract class BaseSliderView {
         if (mLoadListener != null) {
             mLoadListener.onStart(me);
         }
+        Fresco.initialize(mContext);
 
-        Picasso p = (mPicasso != null) ? mPicasso : Picasso.with(mContext);
-        RequestCreator rq = null;
+        ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
+            @Override
+            public void onFinalImageSet(
+                    String id,
+                    @Nullable ImageInfo imageInfo,
+                    @Nullable Animatable anim) {
+                if(v.findViewById(R.id.loading_bar) != null){
+                    v.findViewById(R.id.loading_bar).setVisibility(View.INVISIBLE);
+                }
+                if (imageInfo == null) {
+                    return;
+                }
+                QualityInfo qualityInfo = imageInfo.getQualityInfo();
+            }
+
+            @Override
+            public void onIntermediateImageSet(String id, @Nullable ImageInfo imageInfo) {
+            }
+
+            @Override
+            public void onFailure(String id, Throwable throwable) {
+                if(v.findViewById(R.id.loading_bar) != null){
+                    v.findViewById(R.id.loading_bar).setVisibility(View.INVISIBLE);
+                }
+            }
+        };
+
+        GenericDraweeHierarchy hierarchy = targetImageView.getHierarchy();
+
+
+        DraweeController controller = null;
         if(mUrl!=null){
-            rq = p.load(mUrl);
-        }else if(mFile != null){
-            rq = p.load(mFile);
-        }else if(mRes != 0){
-            rq = p.load(mRes);
+            controller = Fresco.newDraweeControllerBuilder().setControllerListener(controllerListener)
+                    .setImageRequest(ImageRequest.fromUri(mUrl))
+                    .build();
         }else{
             return;
         }
 
-        if(rq == null){
-            return;
-        }
-
-        if(getEmpty() != 0){
-            rq.placeholder(getEmpty());
-        }
-
-        if(getError() != 0){
-            rq.error(getError());
-        }
-
         switch (mScaleType){
             case Fit:
-                rq.fit();
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER);
                 break;
             case CenterCrop:
-                rq.fit().centerCrop();
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP);
                 break;
             case CenterInside:
-                rq.fit().centerInside();
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE);
                 break;
         }
 
-        rq.into(targetImageView,new Callback() {
-            @Override
-            public void onSuccess() {
-                if(v.findViewById(R.id.loading_bar) != null){
-                    v.findViewById(R.id.loading_bar).setVisibility(View.INVISIBLE);
-                }
-            }
+        targetImageView.setHierarchy(hierarchy);
+        targetImageView.setController(controller);
 
-            @Override
-            public void onError() {
-                if(mLoadListener != null){
-                    mLoadListener.onEnd(false,me);
-                }
-                if(v.findViewById(R.id.loading_bar) != null){
-                    v.findViewById(R.id.loading_bar).setVisibility(View.INVISIBLE);
-                }
-            }
-        });
    }
 
 
@@ -304,25 +311,5 @@ public abstract class BaseSliderView {
     public interface ImageLoadListener{
         public void onStart(BaseSliderView target);
         public void onEnd(boolean result,BaseSliderView target);
-    }
-
-    /**
-     * Get the last instance set via setPicasso(), or null if no user provided instance was set
-     *
-     * @return The current user-provided Picasso instance, or null if none
-     */
-    public Picasso getPicasso() {
-        return mPicasso;
-    }
-
-    /**
-     * Provide a Picasso instance to use when loading pictures, this is useful if you have a
-     * particular HTTP cache you would like to share.
-     *
-     * @param picasso The Picasso instance to use, may be null to let the system use the default
-     *                instance
-     */
-    public void setPicasso(Picasso picasso) {
-        mPicasso = picasso;
     }
 }
