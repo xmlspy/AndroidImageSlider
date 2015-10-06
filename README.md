@@ -27,7 +27,7 @@ dependencies {
     	compile 'com.android.support:support-v4:+'
     	compile 'com.facebook.fresco:fresco:0.7.0+'
     	compile 'com.nineoldandroids:library:2.4.0'
-    	compile 'com.amstronghuang.slider:library:1.1.2@aar'
+    	compile 'com.amstronghuang.slider:library:1.1.3@aar'
 }
 ```
 
@@ -48,7 +48,7 @@ dependencies {
 <dependency>
     <groupId>com.amstronghuang.slider</groupId>
     <artifactId>library</artifactId>
-    <version>1.1.2</version>
+    <version>1.1.3</version>
     <type>apklib</type>
 </dependency>
 ```
