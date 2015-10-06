@@ -44,6 +44,8 @@ public abstract class BaseSliderView {
 
     private String mSmallImageUrl;
 
+    private Integer mPlaceHolderResId;
+
     protected OnSliderClickListener mOnSliderClickListener;
 
     private boolean mErrorDisappear;
@@ -117,14 +119,25 @@ public abstract class BaseSliderView {
 
     /**
      * set a url as a image that preparing to load, http://frescolib.org/docs/supported-uris.html#_
-     * @param url
+     * @param smallImageUrl
      * @return
      */
-    public BaseSliderView image(String url, String smallImageUrl){
-        mUrl = url;
+    public BaseSliderView imageLowRes(String smallImageUrl){
         mSmallImageUrl = smallImageUrl;
         return this;
     }
+
+    /**
+     * set a url as a image that preparing to load, http://frescolib.org/docs/supported-uris.html#_
+     * @param idDrawable
+     * @return
+     */
+    public BaseSliderView imagePlaceHolder(Integer idDrawable){
+        mPlaceHolderResId = idDrawable;
+        return this;
+    }
+
+
 
     /**
      * lets users add a bundle of additional information
@@ -246,6 +259,10 @@ public abstract class BaseSliderView {
             case CenterInside:
                 hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE);
                 break;
+        }
+
+        if(mPlaceHolderResId!=null){
+            hierarchy.setPlaceholderImage(mPlaceHolderResId);
         }
 
         targetImageView.setHierarchy(hierarchy);
