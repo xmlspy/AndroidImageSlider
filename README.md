@@ -109,3 +109,6 @@ Please visit [Wiki](https://github.com/daimajia/AndroidImageSlider/wiki)
 ##About me
 
 If you get any problems when using this library, please feel free to [email me](mailto:chan32167@gmail.com).
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/chan32167/androidimageslider/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
