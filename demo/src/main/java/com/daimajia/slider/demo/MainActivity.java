@@ -54,7 +54,7 @@ public class MainActivity extends ActionBarActivity implements BaseSliderView.On
             textSliderView
                     .description(name)
                     .image("res:///" + file_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
+                    .setScaleType(BaseSliderView.ScaleType.FIT_XY)
                     .setOnSliderClickListener(this);
 
             //add your extra information

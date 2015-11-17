@@ -10,6 +10,7 @@ import com.daimajia.slider.library.R;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.controller.ControllerListener;
+import com.facebook.drawee.drawable.MatrixDrawable;
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.interfaces.DraweeController;
@@ -57,10 +58,75 @@ public abstract class BaseSliderView {
     /**
      * Scale type of the image.
      */
-    private ScaleType mScaleType = ScaleType.Fit;
+    private ScaleType mScaleType = ScaleType.FIT_XY;
 
-    public enum ScaleType{
-        CenterCrop, CenterInside, Fit, FitCenterCrop
+    /**
+     * Options for scaling the child bounds to the parent bounds.
+     * <p>
+     * Similar to {@link android.widget.ImageView.ScaleType}, but ScaleType.MATRIX is not supported.
+     * To use matrix scaling, use a {@link MatrixDrawable}. An additional scale type (FOCUS_CROP) is
+     * provided.
+     * <p>
+     * Note: The enum values should be in sync with the scaleType attribute values in attrs.xml
+     */
+    public enum ScaleType {
+
+        /**
+         * Scales width and height independently, so that the child matches the parent exactly.
+         * This may change the aspect ratio of the child.
+         */
+        FIT_XY,
+
+        /**
+         * Scales the child so that it fits entirely inside the parent. At least one dimension (width or
+         * height) will fit exactly. Aspect ratio is preserved.
+         * Child is aligned to the top-left corner of the parent.
+         */
+        FIT_START,
+
+        /**
+         * Scales the child so that it fits entirely inside the parent. At least one dimension (width or
+         * height) will fit exactly. Aspect ratio is preserved.
+         * Child is centered within the parent's bounds.
+         */
+        FIT_CENTER,
+
+        /**
+         * Scales the child so that it fits entirely inside the parent. At least one dimension (width or
+         * height) will fit exactly. Aspect ratio is preserved.
+         * Child is aligned to the bottom-right corner of the parent.
+         */
+        FIT_END,
+
+        /**
+         * Performs no scaling.
+         * Child is centered within parent's bounds.
+         */
+        CENTER,
+
+        /**
+         * Scales the child so that it fits entirely inside the parent. Unlike FIT_CENTER, if the child
+         * is smaller, no up-scaling will be performed. Aspect ratio is preserved.
+         * Child is centered within parent's bounds.
+         */
+        CENTER_INSIDE,
+
+        /**
+         * Scales the child so that both dimensions will be greater than or equal to the corresponding
+         * dimension of the parent. At least one dimension (width or height) will fit exactly.
+         * Child is centered within parent's bounds.
+         */
+        CENTER_CROP,
+
+        /**
+         * Scales the child so that both dimensions will be greater than or equal to the corresponding
+         * dimension of the parent. At least one dimension (width or height) will fit exactly.
+         * The child's focus point will be centered within the parent's bounds as much as possible
+         * without leaving empty space.
+         * It is guaranteed that the focus point will be visible and centered as much as possible.
+         * If the focus point is set to (0.5f, 0.5f), result will be equivalent to CENTER_CROP.
+         */
+        FOCUS_CROP
     }
 
     protected BaseSliderView(Context context) {
@@ -250,14 +316,29 @@ public abstract class BaseSliderView {
         }
 
         switch (mScaleType){
-            case Fit:
+            case FIT_XY:
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_XY);
+                break;
+            case FIT_START:
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_START);
+                break;
+            case FIT_CENTER:
                 hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER);
                 break;
-            case CenterCrop:
+            case FIT_END:
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_END);
+                break;
+            case CENTER:
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER);
+                break;
+            case CENTER_INSIDE:
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE);
+                break;
+            case CENTER_CROP:
                 hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP);
                 break;
-            case CenterInside:
-                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE);
+            case FOCUS_CROP:
+                hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FOCUS_CROP);
                 break;
         }
 
